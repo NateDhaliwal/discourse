@@ -75,6 +75,10 @@ class PostRevisor
     track_and_revise topic_changes, :title, attribute
   end
 
+  track_topic_field(:locale) do |topic_changes, attribute|
+    track_and_revise topic_changes, :locale, attribute
+  end
+
   track_topic_field(:archetype) do |topic_changes, attribute|
     track_and_revise topic_changes, :archetype, attribute
   end

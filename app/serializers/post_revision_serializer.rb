@@ -27,6 +27,7 @@ class PostRevisionSerializer < ApplicationSerializer
              :user_changes,
              :tags_changes,
              :category_id_changes,
+             :locale_changes,
              :can_edit
 
   # Creates a field called field_name_changes with previous and
@@ -192,6 +193,19 @@ class PostRevisionSerializer < ApplicationSerializer
     previous["category_id"] != current["category_id"]
   end
 
+  def locale_changes
+    pre = previous["locale"]
+    cur = current["locale"]
+
+    return nil if pre == cur
+
+    { previous: pre, current: cur }
+  end
+
+  def include_locale_changes?
+    previous["locale"] != current["locale"]
+  end
+
   protected
 
   def post
@@ -220,6 +234,7 @@ class PostRevisionSerializer < ApplicationSerializer
       "wiki" => [post.wiki],
       "post_type" => [post.post_type],
       "user_id" => [post.user_id],
+      "locale" => [post.locale],
     }
 
     # Retrieve any `tracked_topic_fields`
