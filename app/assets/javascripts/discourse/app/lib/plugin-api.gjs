@@ -59,7 +59,6 @@ import { addUsernameSelectorDecorator } from "discourse/helpers/decorate-usernam
 import { registerCustomAvatarHelper } from "discourse/helpers/user-avatar";
 import { addBeforeAuthCompleteCallback } from "discourse/instance-initializers/auth-complete";
 import { addCardToAdminThemesGrid } from "discourse/lib/admin-custom-themes-grid-cards";
-import { registerAdminPluginConfigNav } from "discourse/lib/admin-plugin-config-nav";
 import { registerPluginHeaderActionComponent } from "discourse/lib/admin-plugin-header-actions";
 import { registerReportModeComponent } from "discourse/lib/admin-report-additional-modes";
 import classPrepend, {
@@ -3293,7 +3292,12 @@ class PluginApi {
       return;
     }
 
-    registerAdminPluginConfigNav(pluginId, links);
+    this.registerValueTransformer(
+      "admin-plugin-config-navs",
+      ({ value: navs }) => {
+        navs[pluginId] = { links };
+      }
+    );
   }
 
   /**
