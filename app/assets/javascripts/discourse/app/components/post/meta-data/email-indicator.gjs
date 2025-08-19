@@ -5,6 +5,7 @@ import { service } from "@ember/service";
 import concatClass from "discourse/helpers/concat-class";
 import icon from "discourse/helpers/d-icon";
 import { i18n } from "discourse-i18n";
+import DTooltip from "float-kit/components/d-tooltip";
 
 export default class PostMetaDataEmailIndicator extends Component {
   @service currentUser;
@@ -37,11 +38,17 @@ export default class PostMetaDataEmailIndicator extends Component {
         "post-info"
         "via-email"
         (if this.canViewRawEmail "raw-email")
-      }}
-      title={{this.title}}
-      {{on "click" this.onShowRawEmail}}
+      }}      
     >
-      {{icon this.icon}}
+      <DTooltip
+        @identifier={{concatClass
+          "via-email"
+          (if this.canViewRawEmail "raw-email")
+        }}
+        @icon={{this.icon}}
+        @content={{this.title}}
+        {{on "click" this.onShowRawEmail}}
+      />
     </div>
   </template>
 }
