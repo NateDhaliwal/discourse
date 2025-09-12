@@ -38,6 +38,7 @@ import BulkSelectBookmarksDropdown from "select-kit/components/bulk-select-bookm
 export default class BookmarkList extends Component {
   @service dialog;
   @service modal;
+  @service toasts;
 
   get canDoBulkActions() {
     return this.bulkSelectHelper?.selected.length;
@@ -64,15 +65,18 @@ export default class BookmarkList extends Component {
               bookmark.attachedTo()
             );
             this._removeBookmarkFromList(bookmark);
+            this.toasts.success({
+              data: { message: i18n("bookmarks.deleted_bookmark_success") },
+            });
             resolve(true);
           })
           .catch((error) => {
             reject(error);
           });
       };
-      if (!bookmark.reminder_at) {
-        return deleteBookmark();
-      }
+      // if (!bookmark.reminder_at) {
+      //   return deleteBookmark();
+      // }
       this.dialog.deleteConfirm({
         message: i18n("bookmarks.confirm_delete"),
         didConfirm: () => deleteBookmark(),
